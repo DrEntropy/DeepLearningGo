@@ -41,7 +41,7 @@ class GoString():
         return GoString(
             self.color,
             combined_stones,
-            (self.libertires | go_string.libertires) - combined_stones)
+            (self.liberties | go_string.liberties) - combined_stones)
 
     @property
     def num_liberties(self):
