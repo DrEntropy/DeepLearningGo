@@ -1,6 +1,6 @@
 from six.moves import input
 
-from dlgo import goboard_fast as goboard
+from dlgo import goboard
 from dlgo import gotypes
 from dlgo import mcts
 from dlgo.utils import print_board, print_move, point_from_coords
@@ -29,7 +29,7 @@ def capture_diff(game_state):
 
 def main():
     game = goboard.GameState.new_game(BOARD_SIZE)
-    bot = mcts.MCTSAgent(500, temperature=1.4)
+    bot = mcts.MCTSAgent(12, temperature=1.4)
 
     while not game.is_over():
         print_board(game.board)

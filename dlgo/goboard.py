@@ -1,5 +1,5 @@
 import copy
-from dlgo.gotypes import Player
+from dlgo.gotypes import Player,Point
 from dlgo.scoring import compute_game_result
 from dlgo import zobrist
 
