@@ -40,7 +40,7 @@ def main():
     parser.add_argument('--board-size','-b',type=int,default =9)
     parser.add_argument('--rounds','-r',type=int,default = 1000)
     parser.add_argument('--temperature','-t',type=float,default=0.8)
-    parser.add_argumetn('--max-moves','-m',type=int,default=60,\
+    parser.add_argument('--max-moves','-m',type=int,default=60,\
         help = 'Maximum moves per game.')
     parser.add_argument('--num-games','-n',type=int,default=10)
     parser.add_argument('--board-out')
