@@ -8,9 +8,10 @@ class Encoder:
     def encode(self,game_state):
         raise NotImplementedError()
     
+    # point to index
     def encode_point(self,point):
         raise NotImplementedError()
-
+    # index to point
     def decode_point_index(self,index):
         raise NotImplementedError()
 
