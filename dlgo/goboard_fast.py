@@ -2,6 +2,7 @@ import copy
 from dlgo.gotypes import Player, Point
 from dlgo.scoring import compute_game_result
 from dlgo import zobrist
+# aparently not needed until chapter 13
 #from dlgo.utils import MoveAge
 
 __all__ = [
@@ -124,8 +125,8 @@ class Board():
         adjacent_same_color = []
         adjacent_opposite_color = []
         liberties = []
-        self.move_ages.increment_all()
-        self.move_ages.add(point)
+        #self.move_ages.increment_all()
+        #self.move_ages.add(point)
         for neighbor in self.neighbor_table[point]:
             neighbor_string = self._grid.get(neighbor)
             if neighbor_string is None:
@@ -166,7 +167,7 @@ class Board():
 
     def _remove_string(self, string):
         for point in string.stones:
-            self.move_ages.reset_age(point)
+            #self.move_ages.reset_age(point)
             # Removing a string can create liberties for other strings.
             for neighbor in self.neighbor_table[point]:
                 neighbor_string = self._grid.get(neighbor)
