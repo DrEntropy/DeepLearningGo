@@ -22,7 +22,7 @@ def main():
     learning_rate = args.lr
     clipnorm = args.clipnorm
     batch_size = args.bs
-
+    print(f"{len(experience_files)} files read.")
     learning_agent = agent.load_policy_agent(h5py.File(learning_agent_filename))
     for exp_filename in experience_files:
         exp_buffer = rl.load_experience(h5py.File(exp_filename))
