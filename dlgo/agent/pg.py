@@ -19,14 +19,14 @@ def normalize(x):
     total = np.sum(x)
     return x / total
 
-# Keeping this around so we can read existing agents. But from now on
-# we'll use the built-in crossentropy loss.  
-# Doesnt seem optional here.... 
-
-def policy_gradient_loss(y_true, y_pred):
-    clip_pred = K.clip(y_pred, K.epsilon(), 1 - K.epsilon())
-    loss = -1 * y_true * K.log(clip_pred)
-    return K.mean(K.sum(loss, axis=1))
+def prepare_experience_data(experience, board_width, board_height):
+    experience_size = experience.actions.shape[0]
+    target_vectors = np.zeros((experience_size, board_width * board_height))
+    for i in range(experience_size):
+        action = experience.actions[i]
+        reward = experience.rewards[i]
+        target_vectors[i][action] = reward
+    return target_vectors
 
 
 class PolicyAgent(Agent):
@@ -92,28 +92,23 @@ class PolicyAgent(Agent):
         kerasutil.save_model_to_hdf5_group(self._model, h5file['model'])
 
     # CHapter 11
-    def train(self, experience, lr=0.0000001, clipnorm=1.0, batch_size=512):
-        opt = SGD(lr=lr, clipnorm=clipnorm)
-        self._model.compile(loss='categorical_crossentropy', optimizer=opt)
+    def train(self, experience, lr, clipnorm, batch_size):
+        self._model.compile(
+            loss='categorical_crossentropy',
+            optimizer=SGD(lr=lr, clipnorm=clipnorm))
 
-        n = experience.states.shape[0]
-        # Translate the actions/rewards.
-        num_moves = self._encoder.board_width * self._encoder.board_height
-        y = np.zeros((n, num_moves))
-        for i in range(n):
-            action = experience.actions[i]
-            reward = experience.rewards[i]
-            y[i][action] = reward
+        target_vectors = prepare_experience_data(
+            experience,
+            self._encoder.board_width,
+            self._encoder.board_height)
 
         self._model.fit(
-            experience.states, y,
+            experience.states, target_vectors,
             batch_size=batch_size,
             epochs=1)
 
 def load_policy_agent(h5file):
-    model = kerasutil.load_model_from_hdf5_group(
-        h5file['model'],
-        custom_objects={'policy_gradient_loss': policy_gradient_loss})
+    model = kerasutil.load_model_from_hdf5_group(h5file['model'])
     encoder_name = h5file['encoder'].attrs['name']
     if not isinstance(encoder_name, str):
         encoder_name = encoder_name.decode('ascii')
@@ -123,4 +118,5 @@ def load_policy_agent(h5file):
         encoder_name,
         (board_width, board_height))
     return PolicyAgent(model, encoder)
+
 
