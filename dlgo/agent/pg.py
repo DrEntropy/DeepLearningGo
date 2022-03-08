@@ -11,8 +11,7 @@ from dlgo import kerasutil
 
 __all__ = [
     'PolicyAgent',
-    'load_policy_agent',
-    'policy_gradient_loss'
+    'load_policy_agent'
 ]
 
 def normalize(x):
