@@ -15,9 +15,13 @@ March 8 2022
 * round1.h5 self play for 2000 games saved in exp_batch3.h5
 * training into round2.h5 complete , tested vs round1.ht: New agent 497/1000....  Shiza!
 * Next: retrain with higher learning rate .01 ? just to see how  shitty that is.
-** CONSIDER MAKING T>0 to get more variation? **
+* maybe .0005 ? going the other way? Cant really detect any difference
+* with .005 -> round2.h5 bot scored :   vs round1.h5 bot 499/1000
+* if fail -> round1.h5 self play 2000 more games saved in exp_batch4.h5
+
+** CONSIDER MAKING T>0 to get more variation? except this should not matter until later **
 
 
 ### Bottom line
-* THIS IS SLOW AF.   
+* THIS IS SLOW AF.   THe book sites demo uses 84000 games.
 * I think i will stop when i see any improvement at all and move on to next chapter ;)
