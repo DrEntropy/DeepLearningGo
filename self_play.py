@@ -73,24 +73,20 @@ def main():
     parser.add_argument('--learning-agent', required=True)
     parser.add_argument('--num-games', '-n', type=int, default=10)
     parser.add_argument('--experience-out', required=True)
-    parser.add_argument('--temp',type=float,default=0.0)
 
     args = parser.parse_args()
     agent_filename = args.learning_agent
     experience_filename = args.experience_out
-    temp = args.temp
     num_games = args.num_games
     global BOARD_SIZE
     BOARD_SIZE = args.board_size
 
-    agent1 = agent.load_policy_agent(h5py.File(agent_filename))
-    agent2 = agent.load_policy_agent(h5py.File(agent_filename))
+    agent1 = rl.load_ac_agent(h5py.File(agent_filename))
+    agent2 = rl.load_ac_agent(h5py.File(agent_filename))
     collector1 = rl.ExperienceCollector()
     collector2 = rl.ExperienceCollector()
     agent1.set_collector(collector1)
     agent2.set_collector(collector2)
-    agent1.set_temperature(temp)
-    agent2.set_temperature(temp)
 
     for i in range(args.num_games):
         print('Simulating game %d/%d...' % (i + 1, args.num_games))
