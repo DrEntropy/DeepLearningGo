@@ -65,7 +65,7 @@ class ACAgent(Agent):
         self.model.compile(
             optimizer=opt,
             loss=['categorical_crossentropy', 'mse'],
-            loss_weights=[1.0, 0.5])
+            loss_weights=[1.0, 0.2])
 
         n = experience.states.shape[0]
         num_moves = self.encoder.num_points()
